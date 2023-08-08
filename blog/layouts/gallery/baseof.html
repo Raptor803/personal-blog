@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+
+<head>
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="{{ if .IsHome}}{{ .Site.Params.Description }}{{ else }}{{.Page.Params.Description}}{{ end }}">
+  <meta name="keywords" content="{{ delimit .Keywords " , " }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- Twitter -->
+  {{ if isset .Site.Params "twitter" }}
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ .Title }}" />
+  <meta name="twitter:description" content="{{ if .IsHome }}{{ htmlEscape .Site.Params.description }}{{ else }}{{ htmlEscape .Description }}{{ end }}"/>
+  <meta name="twitter:site" content="{{ .Site.Params.twitterSite | default .Site.Params.twitter }}" />
+  <meta name="twitter:creator" content="{{ .Site.Params.twitterCreator | default .Site.Params.twitter }}" />
+  {{ end }}
+
+  {{ partial "favicon.html" }}
+
+  <!-- Styles -->
+  {{ block "styles" . }} {{ end }} <!-- Get "style_opts" variable from "styles" block -->
+  {{ $base_styles_opts := .Scratch.Get "style_opts" | default (dict "src" "scss/pages/about.scss" "dest" "css/about.css") }}
+  {{ $custom_styles_opts := (dict "src" "scss/custom.scss" "dest" "css/custom.css") }}
+  
+  {{ $current_page := . }}
+  
+  {{ range (slice $base_styles_opts $custom_styles_opts) }}
+    {{ $style := resources.Get .src | resources.ExecuteAsTemplate .dest $current_page | toCSS | minify | fingerprint }}
+    <link type="text/css" rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}"/>
+  {{ end }}
+  
+  {{ range .AlternativeOutputFormats }} 
+  {{ printf `<link rel="%s" type="%s+%s" href="%s" title="%s" />` .Rel .MediaType.Type .MediaType.FirstSuffix.Suffix .Permalink $.Site.Title | safeHTML }} 
+  {{ end }} 
+  {{ block "links" . }} {{ end }}
+  {{ partial "seo-schema.html" .}}
+
+  {{- if not .Site.IsServer -}}
+      {{ template "_internal/google_analytics_async.html" . }}
+  {{- end -}}
+
+  {{ partial "gallerydeluxe/head.html" . }}
+</head>
+
+{{/* init.hmlt takes either a slice of .images or a .sourcePath that points to a bundle with images.
+  An .id will be calculated if not provided. This will be used to create the URL to the data file.
+*/}}
+{{ $bundle := site.GetPage "gallery" }}
+{{ $images := $bundle.Resources.ByType "image" }}
+{{ $gallery := partial "gallerydeluxe/init.html" (dict "images" $images) }}
+{{ $params := site.Params.gallerydeluxe }}
+{{/* We currently only support 1 gallery per page, which is create4 by an element with id 'gallerydeluxe',
+  and a valid data url.
+*/}}
+
+<body>
+  {{ partial "burger.html" .}} 
+
+  {{ partial "nav.html" .}}
+ 
+  <main>
+
+  <div id="gallerydeluxe" data-gd-image-data-url="{{ $gallery.imageDataUrl }}">
+    <div id="gd-modal" class="gd-modal">
+      <span id="gd-modal-close" class="gd-modal-close">&times;</span>
+      {{ if $params.enable_exif }}
+        <div id="gd-modal-exif" class="gd-modal-exif"></div>
+      {{ end }}
+    </div>
+  </div>
+
+  </main>
+  
+  <footer class="post__footer">
+    {{ partial "social-icons.html" .}}
+    <p>{{ replace .Site.Copyright "{year}" now.Year }}</p>
+  </footer>
+
+  {{ $script := resources.Get "js/index.js" | minify | fingerprint }}
+  <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity | safeHTMLAttr }}" crossorigin="anonymous"></script>
+  {{ block "scripts" . }} {{ end }}
+
+
+</body>
+
+</html>
