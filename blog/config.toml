@@ -2,7 +2,7 @@
 theme = "hugo-theme-codex" 
 
 # Override these settings with your own
-title = "codex"
+title = "Gionatan Buono's Website"
 languageCode = "en-us"
 baseURL = "https://example.org/"
 copyright = "© {year}"
@@ -45,14 +45,14 @@ copyright = "© {year}"
 
   [params.gallerydeluxe]
     # Shuffle the images in the gallery to give the impression of a new gallery each time.
-    shuffle = false
+    shuffle = true
 
     # Reverse the order of the images in the gallery.
     reverse = false
 
       # Enable Exif data in the gallery.
       # See https://gohugo.io/content-management/image-processing/#exif-data for how to filter tags.
-    enable_exif = false
+    enable_exif = true
 
 # This disables Hugo's default syntax highlighting in favor
 # of prismjs. If you wish to use Hugo's default syntax highlighting
@@ -68,25 +68,29 @@ copyright = "© {year}"
 
 # Controls the navigation
 [[menu.main]]
+  weight = 10
   identifier = "home"
   name = "home"
   title = "Home"
   url = "/"
 
 [[menu.main]]
+  weight = 11
+  identifier = "about"
+  name = "about"
+  title = "About"
+  url = "/about"
+
+[[menu.main]]
+  weight = 20
   identifier = "blog"
   name = "blog"
   title = "Blog"
   url = "/blog"
 
 [[menu.main]]
+  weight = 30
   identifier = "gallery"
   name = "gallery"
   title = "Gallery"
   url = "/gallery"
-
-[[menu.main]]
-  identifier = "about"
-  name = "about"
-  title = "About"
-  url = "/about"

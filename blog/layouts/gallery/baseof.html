@@ -66,7 +66,7 @@
  
   <main>
 
-  <div id="gallerydeluxe" data-gd-image-data-url="{{ $gallery.imageDataUrl }}">
+  <div id="gallerydeluxe" data-gd-image-data-url="{{ $gallery.imageDataUrl }}" style="margin-left: 50px">
     <div id="gd-modal" class="gd-modal">
       <span id="gd-modal-close" class="gd-modal-close">&times;</span>
       {{ if $params.enable_exif }}
@@ -77,11 +77,8 @@
 
   </main>
   
-  <footer class="post__footer">
-    {{ partial "social-icons.html" .}}
-    <p>{{ replace .Site.Copyright "{year}" now.Year }}</p>
-  </footer>
-
+  {{ partial "footer.html" .}}
+  
   {{ $script := resources.Get "js/index.js" | minify | fingerprint }}
   <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity | safeHTMLAttr }}" crossorigin="anonymous"></script>
   {{ block "scripts" . }} {{ end }}

@@ -32,9 +32,17 @@
     {{ if $params.enable_exif }}
       {{/* Workaround for https://github.com/gohugoio/hugo/issues/10345 */}}
       {{ $tags := newScratch }}
-      {{ range $k, $v := .Exif.Tags }}
-        {{ $tags.Set $k $v }}
+
+      {{ with .Exif.Tags.ISOSpeedRatings }}
+        {{ $tags.Set "ISO" . }}
       {{ end }}
+      {{ with .Exif.Tags.FocalLength }}
+        {{ $tags.Set "Focal Length" (printf "%.0f mm" .) }}
+      {{ end }}
+      {{ with .Exif.Tags.FNumber }}
+        {{ $tags.Set "Aperture" (printf "f/%.1f" .)  }}
+      {{ end }}
+
       {{ $exif = dict
         "Tags" $tags.Values
         "Date" .Exif.Date

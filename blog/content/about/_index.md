@@ -1,5 +1,5 @@
 ---
-title: "Second Blog Post"
+title: "My Resume"
 date: 2023-08-08T13:23:32+02:00
 slug: ""
 description: ""
