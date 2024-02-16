@@ -1,6 +1,6 @@
 ---
 title: "My Resume"
-date: 2023-08-08T13:23:32+02:00
+date: 2024-02-16T16:42:32+02:00
 slug: ""
 description: ""
 keywords: []
@@ -9,6 +9,3 @@ tags: []
 math: false
 toc: false
 ---
-
-# Hello World!
-Welcome to my website

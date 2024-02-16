@@ -81,12 +81,12 @@ copyright = "© {year}"
   title = "About"
   url = "/about"
 
-[[menu.main]]
-  weight = 20
-  identifier = "blog"
-  name = "blog"
-  title = "Blog"
-  url = "/blog"
+#[[menu.main]]
+#  weight = 20
+#  identifier = "blog"
+#  name = "blog"
+#  title = "Blog"
+#  url = "/blog"
 
 [[menu.main]]
   weight = 30
