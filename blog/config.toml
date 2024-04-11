@@ -6,6 +6,7 @@ title = "Gionatan Buono's Website"
 languageCode = "en-us"
 baseURL = "https://example.org/"
 copyright = "© {year}"
+timeout = "60s"
 
 # Add your Disqus shortname here.
 # disqusShortname = ""
